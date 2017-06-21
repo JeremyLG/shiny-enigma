@@ -1,0 +1,16 @@
+<!doctype html>
+<title>{% block title %}Welcome{% endblock %} | on a d3.js website example</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<div class="page">
+  <h1>Tricky</h1>
+  <div class="navigation">
+    <a href="{{ url_for('register') }}">sign up</a> |
+    <a href="{{ url_for('login') }}">sign in</a>
+  </div>
+  <div class="body">
+  {% block body %}{% endblock %}
+  </div>
+  <div class="footer">
+    Tricky &mdash; A Flask/d3.js Application
+  </div>
+</div>
