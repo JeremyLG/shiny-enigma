@@ -18,14 +18,14 @@ def before_request():
 def index():
     return render_template("layout.html")
 
-@app.route('/author', methods=['GET'])
-def author():
-    error = None
-    author = mongo.db.author
-    output = []
-    for s in author.find():
-        output.append({'author' : s['author'], 'title' : s['title']})
-    return render_template('account.html',error=error)
+# @app.route('/author', methods=['GET'])
+# def author():
+#     error = None
+#     author = mongo.db.author
+#     output = []
+#     for s in author.find():
+#         output.append({'author' : s['author'], 'title' : s['title']})
+#     return render_template('account.html',error=error)
     #return jsonify({'result' : output})
 
 # @app.route('/user/<nickname>')
@@ -88,10 +88,34 @@ def register():
         elif mongo.db.users.find_one(request.form['username']) is not None:
             error = 'The username is already taken'
         else:
-            mongo.db.users.insert({"username":request.form['username'],"email":request.form['email'],"password":generate_password_hash(request.form['password']),"date":datetime.datetime.utcnow()})
+            mongo.db.users.insert({"username":request.form['username'],"email":request.form['email'],"avatar":"static/img/avatar.png","password":generate_password_hash(request.form['password']),"date":datetime.datetime.utcnow()})
             flash('You were successfully registered and can login now',"success")
             return redirect(url_for('index'))
     return render_template('register.html', error=error)
+
+@app.route('/account', methods=['GET', 'POST'])
+def account():
+    """Registers the user."""
+    # if g.user:
+    #     return redirect(url_for('timeline'))
+    error = None
+    if request.method == 'POST':
+        if not request.form['username']:
+            error = 'You have to enter a username'
+        elif not request.form['email'] or \
+                '@' not in request.form['email']:
+            error = 'You have to enter a valid email address'
+        elif not request.form['password']:
+            error = 'You have to enter a password'
+        elif request.form['password'] != request.form['password2']:
+            error = 'The two passwords do not match'
+        elif ((g.user['username'] != request.form['username'])&(mongo.db.users.find_one(request.form['username']) is not None)):
+            error = 'The username is already taken'
+        else:
+            mongo.db.users.update({'_id': ObjectId(session['user_id'])},{'_id': ObjectId(session['user_id']),'email':request.form['email'],'avatar':"static/img/avatar.png",'password':generate_password_hash(request.form['password']),"date":datetime.datetime.utcnow()})
+            flash('You successfully edited your infos',"success")
+            return redirect(url_for('index'))
+    return render_template('account.html', error=error)
 
 @app.route('/logout')
 def logout():

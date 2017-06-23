@@ -32,7 +32,7 @@
         </div>
         <ul class="nav navbar-nav navbar-right">
           {% if g.user %}
-          <li><a href="{{ url_for('author') }}"><span class="glyphicon glyphicon-cog"></span> infos</a></li>
+          
           <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-off"></span> sign out</a></li>
           {% else %}
           <li><a href="{{ url_for('register') }}"><span class="glyphicon glyphicon-pencil"></span> sign up</a></li>
@@ -79,7 +79,7 @@
           <!-- This dropdown is for avatar -->
           <ul class="nav navbar-nav navbar-right navbar-avatar">
             {% if g.user %}
-            <li><a href="{{ url_for('author') }}"><img src="static/img/avatar.png" class="dnt-avatar" alt="Reardestani avatar"></a></li>
+            <li><a href="{{ url_for('account') }}"><img src="{{g.user.avatar}}" class="dnt-avatar" alt="Reardestani avatar"></a></li>
             <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-off"></span> sign out</a></li>
             {% else %}
             <li><a href="{{ url_for('login') }}"><span class="glyphicon glyphicon-user"></span> sign in</a></li>
@@ -97,7 +97,7 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="fa fa-angle-down"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="{{url_for('author')}}">Link 1 <span>LOL</span></a></li>
+                <li><a href="{{url_for('account')}}">Link 1 <span>LOL</span></a></li>
                 <li><a href="{{url_for('logout')}}">Link 2</a></li>
                 <li><a href="#">Link 3</a></li>
               </ul>
