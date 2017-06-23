@@ -34,7 +34,7 @@ from flask_mail import Mail
 mail = Mail(app)
 from flask_mail import Message
 from app import app, mail
-msg = Message('test subject', sender=ADMINS[0], recipients=["sylvain.sivanantham@42consulting.fr"])
+msg = Message('test subject', sender=ADMINS[0], recipients=[""])
 msg.body = 'text body'
 msg.html = '<b>HTML</b> body'
 with app.app_context():

@@ -1,3 +1,3 @@
-{{email}}
+Dear {{email}},
 
 {{message}}

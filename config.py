@@ -1,3 +1,5 @@
+import os
+
 SECRET_KEY = "super secret key"
 
 MONGODB_HOST = 'localhost'
@@ -6,13 +8,11 @@ MONGODB_NAME = 'local'
 MONGO_URI = 'mongodb://'+MONGODB_HOST+':'+str(MONGODB_PORT)+'/'+MONGODB_NAME
 # email server
 DEBUG = True
-MAIL_SERVER = 'smtp.office365.com'
-MAIL_PORT = 587
-MAIL_USE_TLS = True
-MAIL_USE_SSL = False
-# MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-# MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-MAIL_USERNAME = "jeremy.legall@42consulting.fr"
-MAIL_PASSWORD = "HelicE35"
+MAIL_SERVER = 'smtp.gmail.com'
+MAIL_PORT = 465
+MAIL_USE_TLS = False
+MAIL_USE_SSL = True
+MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
 
-ADMINS = ['jeremy.legall@42consulting.fr']
+ADMINS = ['jeremy35.legall@gmail.com']

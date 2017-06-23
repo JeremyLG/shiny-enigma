@@ -44,7 +44,7 @@ def contact():
     flash('You sent a message','success')
     send_email("Vous avez reçu un message",
                    ADMINS[0],
-                   ADMINS[0],
+                   [ADMINS[0]],
                    render_template("email.txt",email=request.form['emaill'], message=request.form['message']),
                    render_template("email.html",email=request.form['emaill'], message=request.form['message']))
     return redirect(url_for('index'))
