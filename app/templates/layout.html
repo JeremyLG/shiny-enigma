@@ -1,0 +1,107 @@
+<!doctype html>
+
+<head>
+  <title>{% block title %}Welcome{% endblock %} | on a d3.js website example</title>
+
+  <script src="https://code.angularjs.org/1.4.3/angular.min.js"></script>
+  <script src="https://code.angularjs.org/1.4.3/angular-route.min.js"></script>
+  <script src="https://code.angularjs.org/1.4.3/angular-resource.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <!--https://code.jquery.com/jquery-3.2.1.min.js
+    <script src="static/angular.min.js"></script>
+    <script src="static/angular-route.min.js"></script>
+    <script src="static/angular-resource.min.js"></script>
+    -->
+  <!-- <script type="text/javascript" src="app.js"></script> -->
+
+  <!--
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"> -->
+
+</head>
+
+<body>{% block body %}
+  <header>
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <li><a href="{{ url_for('index') }}" class="navbar-brand"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+          {% if g.user %}
+          <li><a href="{{ url_for('author') }}"><span class="glyphicon glyphicon-cog"></span> infos</a></li>
+          <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-off"></span> sign out</a></li>
+          {% else %}
+          <li><a href="{{ url_for('register') }}"><span class="glyphicon glyphicon-pencil"></span> sign up</a></li>
+          <li><a href="{{ url_for('login') }}"><span class="glyphicon glyphicon-user"></span> sign in</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+  </header>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+  {% if messages %} {% for category, message in messages %}
+  <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <!-- <strong>Title</strong> -->{{ message }}
+  </div>
+  {% endfor %} {% endif %} {% endwith %}
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script type="text/javascript" src="static/js/graphs.js"></script>
+  <div id="container" style="min-width: 310px; height: 1200px; margin: 0 auto"></div>
+  {% endblock %}
+</body>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+
+<link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/footer.css') }}">
+<footer class="footer-distributed">{% block footer %}
+
+  <div class="footer-left">
+
+    <h3>Company<span>logo</span></h3>
+
+    <p class="footer-links">
+      <a href="#">Home</a> ·
+      <a href="#">Blog</a> ·
+      <a href="#">Pricing</a> ·
+      <a href="#">About</a> ·
+      <a href="#">Faq</a> ·
+      <a href="#">Contact</a>
+    </p>
+
+    <p class="footer-company-name">Tricky &copy; 2017</p>
+
+    <div class="footer-icons">
+
+      <a href="#"><i class="fa fa-facebook"></i></a>
+      <a href="https://twitter.com/trlcky35"><i class="fa fa-twitter"></i></a>
+      <a href="https://www.linkedin.com/in/jeremyLg"><i class="fa fa-linkedin"></i></a>
+      <a href="http://github.com/JeremyLG"><i class="fa fa-github"></i></a>
+
+    </div>
+
+  </div>
+
+  <div class="footer-right">
+
+    <p>Contact Us</p>
+
+    <form action="{{url_for('contact')}}" method="post">
+
+      <input type="text" name="emaill" placeholder="Email" />
+      <textarea name="message" placeholder="Message"></textarea>
+      <button>Send</button>
+
+    </form>
+
+  </div>
+  {% endblock %}
+</footer>
+
+</html>

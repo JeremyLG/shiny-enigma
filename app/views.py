@@ -1,51 +1,9 @@
-from flask import Flask, request, session, url_for, redirect,jsonify,render_template, abort, g, flash, _app_ctx_stack
-from flask_pymongo import PyMongo
-from werkzeug import check_password_hash, generate_password_hash
+from flask import render_template, flash, redirect, session, url_for, request, \
+    g, jsonify
 import datetime
-from bson.objectid import ObjectId
-import os
-
-
-app = Flask(__name__)
-MONGODB_HOST = 'localhost'
-MONGODB_PORT = 27017
-MONGODB_NAME = 'local'
-
-# email server
-MAIL_SERVER = 'smtp.office365.com'
-MAIL_PORT = 587
-MAIL_USE_TLS = False
-MAIL_USE_SSL = True
-MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-MAIL_USERNAME = "jeremy.legall@42consulting.fr"
-MAIL_PASSWORD = "HelicE35"
-
-ADMINS = ['jeremy.legall@42consulting.fr']
-app.config.update(dict(
-    DEBUG = True,
-    MAIL_SERVER = 'smtp.office365.com',
-    MAIL_PORT = 587,
-    MAIL_USE_TLS = True,
-    MAIL_USE_SSL = False,
-    MAIL_USERNAME = 'jeremy.legall@42consulting.fr',
-    MAIL_PASSWORD = 'HelicE35',))
-from flask_mail import Mail
-mail = Mail(app)
-from flask_mail import Message
-from app import app, mail
-msg = Message('test subject', sender=ADMINS[0], recipients=["sylvain.sivanantham@42consulting.fr"])
-msg.body = 'text body'
-msg.html = '<b>HTML</b> body'
-with app.app_context():
-    mail.send(msg)
-
-# administrator list
-ADMINS = ['your-gmail-username@gmail.com']
-app.config['MONGO_DBNAME'] = 'mydb'
-app.config['MONGO_URI'] = 'mongodb://'+MONGODB_HOST+':'+str(MONGODB_PORT)+'/'+MONGODB_NAME
-app.secret_key = "super secret key"
-mongo = PyMongo(app)
+from app import app, mongo
+from .emails import send_email
+from config import ADMINS
 
 @app.before_request
 def before_request():
@@ -68,10 +26,27 @@ def author():
     return render_template('account.html',error=error)
     #return jsonify({'result' : output})
 
+# @app.route('/user/<nickname>')
+# @app.route('/user/<nickname>/<int:page>')
+# def user(nickname, page=1):
+#     user = User.query.filter_by(nickname=nickname).first()
+#     if user is None:
+#         flash(gettext('User %(nickname)s not found.', nickname=nickname))
+#         return redirect(url_for('index'))
+#     posts = user.posts.paginate(page, POSTS_PER_PAGE, False)
+#     return render_template('user.html',
+#                            user=user,
+#                            posts=posts)
+
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
     mongo.db.messages.insert({"email":str(request.form['emaill']),"message":str(request.form['message'])})
     flash('You sent a message','success')
+    send_email("Vous avez reçu un message",
+                   ADMINS[0],
+                   ADMINS[0],
+                   render_template("email.txt",email=request.form['emaill'], message=request.form['message']),
+                   render_template("email.html",email=request.form['emaill'], message=request.form['message']))
     return redirect(url_for('index'))
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -134,6 +109,3 @@ def logout():
 #     json_projects = json.dumps(json_projects, default=json_util.default)
 #     connection.close()
 #     return json_projects
-
-if __name__ == "__main__":
-    app.run(host='0.0.0.0',port=5000,debug=True)

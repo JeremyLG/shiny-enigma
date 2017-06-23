@@ -18,12 +18,14 @@ import datetime
 from werkzeug import generate_password_hash
 passtest = generate_password_hash("new")
 passtest
-mydb.drop_collection('test')
-mydb.create_collection('test')
+mydb.drop_collection('messages')
+mydb.create_collection('messages')
+mydb.drop_collection('users')
+mydb.create_collection('users')
 myrecord = {"username":"admin","email":"email.test@newx.fr","password":passtest,"date" : datetime.datetime.utcnow()  }
 myrecord
-mydb.test.insert_one(myrecord)
-for s in myco.find():
+mydb.users.insert_one(myrecord)
+for s in mydb.messages.find():
     print(s)
 tt = mydb.test.find_one({"author":"Duke"})
 tt == None
