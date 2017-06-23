@@ -4,6 +4,8 @@ import datetime
 from app import app, mongo
 from .emails import send_email
 from config import ADMINS
+from werkzeug import check_password_hash, generate_password_hash
+from bson.objectid import ObjectId
 
 @app.before_request
 def before_request():

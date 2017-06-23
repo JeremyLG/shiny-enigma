@@ -42,16 +42,6 @@
       </div>
     </nav>
   </header> -->
-  {% with messages = get_flashed_messages(with_categories=true) %}
-  <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
-  {% if messages %} {% for category, message in messages %}
-  <div class="alert alert-{{ category }} alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <!-- <strong>Title</strong> -->{{ message }}
-  </div>
-  {% endfor %} {% endif %} {% endwith %}
-  {% endblock %}
-
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="static/css/font-awesome.min.css" rel="stylesheet">
     <link href="static/css/dash.css" rel="stylesheet">
@@ -81,22 +71,19 @@
           <button class="dnl-btn-toggle">
             <span class="fa fa-bars"></span>
           </button>
-          <a class="navbar-brand" href="#">DASH <span>beta</span></a>
+          <a class="navbar-brand" href="{{url_for('index')}}">DASH <span>beta</span></a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="dnt-collapse">
           <!-- This dropdown is for avatar -->
           <ul class="nav navbar-nav navbar-right navbar-avatar">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><img src="static/img/avatar.png" class="dnt-avatar" alt="Reardestani avatar"></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Standard <span>go pro</span></a></li>
-                <li><a href="#">Upload</a></li>
-                <li class="active"><a href="#">Active link</a></li>
-                <li><a href="#">Logout</a></li>
-              </ul>
-            </li>
+            {% if g.user %}
+            <li><a href="{{ url_for('author') }}"><img src="static/img/avatar.png" class="dnt-avatar" alt="Reardestani avatar"></a></li>
+            <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-off"></span> sign out</a></li>
+            {% else %}
+            <li><a href="{{ url_for('login') }}"><span class="glyphicon glyphicon-user"></span> sign in</a></li>
+            {% endif %}
           </ul>
           <form class="navbar-form navbar-right dnt-navbar-form" role="search">
             <div class="form-group">
@@ -110,8 +97,8 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="fa fa-angle-down"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Link 1 <span>LOL</span></a></li>
-                <li><a href="#">Link 2</a></li>
+                <li><a href="{{url_for('author')}}">Link 1 <span>LOL</span></a></li>
+                <li><a href="{{url_for('logout')}}">Link 2</a></li>
                 <li><a href="#">Link 3</a></li>
               </ul>
             </li>
@@ -301,6 +288,14 @@
     Available navbar effects: dnl-push, dnl-overlay
     Available navbar versions: dnl-visible, dnl-hidden
     Available content effects: content-opacity -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+    {% if messages %} {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <!-- <strong>Title</strong> -->{{ message }}
+    </div>
+    {% endfor %} {% endif %} {% endwith %}
     <div class="content-wrap dnl-hidden content-opacity" data-effect="dnl-overlay">
       <script src="https://code.highcharts.com/highcharts.js"></script>
       <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -316,6 +311,7 @@
     <script src="static/js/jquery.touchSwipe.min.js"></script>
     <script src="static/js/dash.js"></script>
     <script src="static/js/demo.js"></script>
+{% endblock %}
 </body>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
