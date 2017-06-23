@@ -112,7 +112,7 @@ def account():
         elif ((g.user['username'] != request.form['username'])&(mongo.db.users.find_one(request.form['username']) is not None)):
             error = 'The username is already taken'
         else:
-            mongo.db.users.update({'_id': ObjectId(session['user_id'])},{'_id': ObjectId(session['user_id']),'email':request.form['email'],'avatar':"static/img/avatar.png",'password':generate_password_hash(request.form['password']),"date":datetime.datetime.utcnow()})
+            mongo.db.users.update({'_id': ObjectId(session['user_id'])},{'_id': ObjectId(session['user_id']),'username':request.form['username'],'email':request.form['email'],'avatar':"static/img/avatar.png",'password':generate_password_hash(request.form['password']),"date":datetime.datetime.utcnow()})
             flash('You successfully edited your infos',"success")
             return redirect(url_for('index'))
     return render_template('account.html', error=error)
