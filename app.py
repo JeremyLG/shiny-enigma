@@ -19,7 +19,7 @@ MAIL_USE_SSL = True
 MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
 MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
 MAIL_USERNAME = "jeremy.legall@42consulting.fr"
-MAIL_PASSWORD = "HelicE35"
+MAIL_PASSWORD = "bienvuxd"
 
 ADMINS = ['jeremy.legall@42consulting.fr']
 app.config.update(dict(
@@ -29,7 +29,7 @@ app.config.update(dict(
     MAIL_USE_TLS = True,
     MAIL_USE_SSL = False,
     MAIL_USERNAME = 'jeremy.legall@42consulting.fr',
-    MAIL_PASSWORD = 'HelicE35',))
+    MAIL_PASSWORD = 'bienvuxd',))
 from flask_mail import Mail
 mail = Mail(app)
 from flask_mail import Message
